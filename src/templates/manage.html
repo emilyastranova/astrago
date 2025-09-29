@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Shortlinks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
+</head>
+<body class="bg-slate-100 p-4 sm:p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">astrago</h1>
+
+        <!-- Create New Link -->
+        <sl-card class="mb-8">
+            <div slot="header">
+                <h2 class="text-xl font-semibold">Create New Shortlink</h2>
+            </div>
+            <form action="/create-link" method="post" class="grid grid-cols-1 md:grid-cols-[1fr_auto] md:items-end gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 min-w-0">
+                    <sl-input name="name" label="Name" placeholder="e.g., gemini" class="flex-grow"></sl-input>
+                    <sl-input name="url" label="Destination URL" placeholder="https://example.com" class="flex-grow-[2]"></sl-input>
+                </div>
+                <sl-button type="submit" variant="primary" class="w-full md:w-auto">Create</sl-button>
+            </form>
+        </sl-card>
+
+        <!-- Existing Links -->
+        <sl-card>
+            <div slot="header">
+                <h2 class="text-xl font-semibold">Existing Shortlinks</h2>
+            </div>
+            <div class="divide-y">
+                {% for link in links %}
+                <div class="py-4 grid grid-cols-1 md:grid-cols-[1fr_auto] md:items-center gap-4">
+                    <div class="min-w-0">
+                        <a href="/{{ link.name }}" class="font-semibold text-blue-600 hover:underline block truncate">{{ link.name }}</a>
+                        <p class="text-sm text-slate-500 truncate" title="{{ link.url }}">{{ link.url }}</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-shrink-0">
+                        <sl-button size="small" class="edit-button" data-name="{{ link.name }}" data-url="{{ link.url }}">Edit</sl-button>
+                        <form action="/rename-link" method="post" class="flex items-center gap-1">
+                            <input type="hidden" name="old_name" value="{{ link.name }}">
+                            <sl-input name="new_name" placeholder="New name" size="small" class="w-full sm:w-32"></sl-input>
+                            <sl-button type="submit" size="small" class="w-full sm:w-auto">Rename</sl-button>
+                        </form>
+                        <form action="/delete-link" method="post">
+                            <input type="hidden" name="name" value="{{ link.name }}">
+                            <sl-button type="submit" variant="danger" size="small" class="w-full sm:w-auto">Delete</sl-button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <p>No shortlinks found.</p>
+                {% endfor %}
+            </div>
+        </sl-card>
+    </div>
+
+    <!-- Edit Modal -->
+    <sl-dialog label="Edit Link" class="edit-dialog">
+        <form action="/update-link" method="post">
+            <input type="hidden" name="name" id="edit-name">
+            <sl-input name="url" id="edit-url" label="New Destination URL" required class="mb-4"></sl-input>
+            <sl-button slot="footer" type="submit" variant="primary">Save Changes</sl-button>
+        </form>
+    </sl-dialog>
+
+    <script>
+        const dialog = document.querySelector('.edit-dialog');
+        const editNameInput = document.querySelector('#edit-name');
+        const editUrlInput = document.querySelector('#edit-url');
+        const editButtons = document.querySelectorAll('.edit-button');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const name = button.dataset.name;
+                const url = button.dataset.url;
+
+                editNameInput.value = name;
+                editUrlInput.value = url;
+
+                dialog.show();
+            });
+        });
+    </script>
+</body>
+</html>

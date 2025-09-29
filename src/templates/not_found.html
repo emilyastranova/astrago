@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Not Found</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
+</head>
+<body class="bg-slate-100 flex items-center justify-center h-screen">
+    <sl-card class="w-full max-w-lg">
+        <div slot="header">
+            <h2 class="text-xl font-semibold">Shortlink Not Found</h2>
+        </div>
+
+        <p class="mb-4">The shortlink "<strong>{{ query }}</strong>" does not exist. Would you like to create it?</p>
+
+        <form action="/create-link" method="post">
+            <input type="hidden" name="name" value="{{ query }}">
+            <sl-input name="url" label="Destination URL" placeholder="https://example.com" required class="mb-4"></sl-input>
+            <sl-button type="submit" variant="primary">Create Shortlink</sl-button>
+        </form>
+        <div slot="footer">
+            <a href="/">Manage all links</a>
+        </div>
