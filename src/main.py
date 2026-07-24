@@ -22,7 +22,7 @@ async def root(request: Request):
     Root endpoint that displays the link management UI.
     """
     links = database.get_all_links()
-    return templates.TemplateResponse("manage.html", {"request": request, "links": links})
+    return templates.TemplateResponse(request=request, name="manage.html", context={"links": links})
 
 
 @app.post("/create-link")
@@ -84,4 +84,4 @@ async def redirect_query(request: Request, query: str):
     if destination_url:
         return RedirectResponse(url=destination_url, status_code=307)
     else:
-        return templates.TemplateResponse("not_found.html", {"request": request, "query": query})
+        return templates.TemplateResponse(request=request, name="not_found.html", context={"query": query})

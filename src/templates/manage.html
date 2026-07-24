@@ -1,89 +1,675 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Shortlinks</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/light.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Shortlinks — astrago</title>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Roboto Font & Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Define the Import Map for Material Web Components -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  
+  <!-- Load Material 3 Components -->
+  <script type="module">
+    import '@material/web/all.js';
+  </script>
+
+  <style>
+    :root {
+      /* Indigo/Lavender MD3 Light Theme Colors */
+      --md-sys-color-primary: #3f51b5;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-primary-container: #e0e2ff;
+      --md-sys-color-on-primary-container: #000965;
+      --md-sys-color-secondary: #5a5d72;
+      --md-sys-color-on-secondary: #ffffff;
+      --md-sys-color-secondary-container: #e0e1f9;
+      --md-sys-color-on-secondary-container: #171a2c;
+      --md-sys-color-tertiary: #75546f;
+      --md-sys-color-on-tertiary: #ffffff;
+      --md-sys-color-tertiary-container: #ffd7f3;
+      --md-sys-color-on-tertiary-container: #2c122a;
+      --md-sys-color-error: #ba1a1a;
+      --md-sys-color-on-error: #ffffff;
+      --md-sys-color-error-container: #ffdad6;
+      --md-sys-color-on-error-container: #410002;
+      --md-sys-color-background: #fdfbff;
+      --md-sys-color-on-background: #1b1b1f;
+      --md-sys-color-surface: #fdfbff;
+      --md-sys-color-on-surface: #1b1b1f;
+      --md-sys-color-surface-variant: #e1e2ec;
+      --md-sys-color-on-surface-variant: #45464f;
+      --md-sys-color-outline: #757680;
+      --md-sys-color-outline-variant: #c5c6d0;
+      --md-sys-color-surface-container-lowest: #ffffff;
+      --md-sys-color-surface-container-low: #f3f3f8;
+      --md-sys-color-surface-container: #ededf2;
+      --md-sys-color-surface-container-high: #e7e7ec;
+      --md-sys-color-surface-container-highest: #e2e1e6;
+
+      /* Material Web Custom Elements Token Styling overrides */
+      --md-outlined-text-field-container-shape: 12px;
+      --md-outlined-text-field-outline-color: var(--md-sys-color-outline-variant);
+      --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+      --md-outlined-text-field-label-text-color: var(--md-sys-color-on-surface-variant);
+      --md-outlined-text-field-focus-label-text-color: var(--md-sys-color-primary);
+      --md-outlined-text-field-input-text-color: var(--md-sys-color-on-surface);
+
+      --md-dialog-container-color: var(--md-sys-color-surface-container-high);
+      --md-dialog-headline-color: var(--md-sys-color-on-surface);
+      --md-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
+
+      --md-list-item-hover-state-layer-color: var(--md-sys-color-on-surface-variant);
+      --md-list-item-hover-state-layer-opacity: 0.08;
+      --md-list-item-label-text-color: var(--md-sys-color-on-surface);
+      --md-list-item-supporting-text-color: var(--md-sys-color-on-surface-variant);
+    }
+
+    :root.dark {
+      /* Indigo/Lavender MD3 Dark Theme Colors */
+      --md-sys-color-primary: #bec2ff;
+      --md-sys-color-on-primary: #00106a;
+      --md-sys-color-primary-container: #25399c;
+      --md-sys-color-on-primary-container: #e0e2ff;
+      --md-sys-color-secondary: #c3c5dd;
+      --md-sys-color-on-secondary: #2c2f42;
+      --md-sys-color-secondary-container: #434659;
+      --md-sys-color-on-secondary-container: #e0e1f9;
+      --md-sys-color-tertiary: #e3bada;
+      --md-sys-color-on-tertiary: #432740;
+      --md-sys-color-tertiary-container: #5c3d57;
+      --md-sys-color-on-tertiary-container: #ffd7f3;
+      --md-sys-color-error: #ffb4ab;
+      --md-sys-color-on-error: #690005;
+      --md-sys-color-error-container: #93000a;
+      --md-sys-color-on-error-container: #ffdad6;
+      --md-sys-color-background: #111318;
+      --md-sys-color-on-background: #e2e2e9;
+      --md-sys-color-surface: #111318;
+      --md-sys-color-on-surface: #e2e2e9;
+      --md-sys-color-surface-variant: #45464f;
+      --md-sys-color-on-surface-variant: #c5c6d0;
+      --md-sys-color-outline: #8f909a;
+      --md-sys-color-outline-variant: #45464f;
+      --md-sys-color-surface-container-lowest: #0b0e13;
+      --md-sys-color-surface-container-low: #1a1b21;
+      --md-sys-color-surface-container: #1e1f25;
+      --md-sys-color-surface-container-high: #282a30;
+      --md-sys-color-surface-container-highest: #33353b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-background);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Typography helper classes */
+    .headline-large { font-size: 32px; font-weight: 400; line-height: 40px; letter-spacing: 0px; }
+    .headline-medium { font-size: 28px; font-weight: 400; line-height: 36px; letter-spacing: 0px; }
+    .headline-small { font-size: 24px; font-weight: 400; line-height: 32px; letter-spacing: 0px; }
+    .title-large { font-size: 22px; font-weight: 500; line-height: 28px; letter-spacing: 0px; }
+    .title-medium { font-size: 16px; font-weight: 500; line-height: 24px; letter-spacing: 0.15px; }
+    .title-small { font-size: 14px; font-weight: 500; line-height: 20px; letter-spacing: 0.1px; }
+    .body-large { font-size: 16px; font-weight: 400; line-height: 24px; letter-spacing: 0.5px; }
+    .body-medium { font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0.25px; }
+    .body-small { font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0.4px; }
+
+    /* M3 App Bar */
+    .app-bar {
+      background-color: var(--md-sys-color-surface-container);
+      color: var(--md-sys-color-on-surface);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0px 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      color: var(--md-sys-color-primary);
+      font-size: 28px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    /* Layout containers */
+    .main-content {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex-grow: 1;
+    }
+
+    @media (max-width: 600px) {
+      .main-content {
+        padding: 20px 12px;
+        gap: 20px;
+      }
+    }
+
+    /* M3 Outlined Cards */
+    .m3-card {
+      background-color: var(--md-sys-color-surface-container-low);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: box-shadow 0.2s;
+    }
+
+    @media (max-width: 600px) {
+      .m3-card {
+        padding: 18px;
+        border-radius: 16px;
+        gap: 16px;
+      }
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+      padding-bottom: 12px;
+    }
+
+    .card-icon {
+      color: var(--md-sys-color-primary);
+    }
+
+    .card-title {
+      color: var(--md-sys-color-on-surface);
+      margin: 0;
+    }
+
+    /* Create shortlink form */
+    .create-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-fields {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-fields {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    .create-btn-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .create-btn-container {
+        margin-top: 4px;
+      }
+      .create-btn-container md-filled-button {
+        width: 100%;
+      }
+    }
+
+    /* List styling */
+    .links-list {
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .link-item {
+      --md-list-item-container-color: transparent;
+      transition: background-color 0.2s;
+    }
+
+    .link-item:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+
+    .link-item-logo {
+      color: var(--md-sys-color-secondary);
+    }
+
+    .link-alias-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .link-alias {
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+      font-weight: 700;
+      transition: opacity 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .link-alias:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
+    .link-url-container {
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .link-url {
+      color: var(--md-sys-color-on-surface-variant);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      max-width: 320px;
+    }
+
+    @media (max-width: 768px) {
+      .link-url {
+        max-width: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .link-url {
+        max-width: 140px;
+      }
+    }
+
+    /* Action triggers */
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .delete-btn {
+      --md-icon-button-icon-color: var(--md-sys-color-error);
+      --md-icon-button-focus-icon-color: var(--md-sys-color-error);
+      --md-icon-button-hover-icon-color: var(--md-sys-color-error);
+    }
+
+    .list-divider {
+      height: 1px;
+      background-color: var(--md-sys-color-outline-variant);
+      margin: 0;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 16px;
+      text-align: center;
+      color: var(--md-sys-color-on-surface-variant);
+      gap: 16px;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      color: var(--md-sys-color-outline);
+    }
+
+    .empty-text {
+      margin: 0;
+    }
+
+    /* Dialog/Modal Styling */
+    .dialog-description {
+      margin: 0 0 16px 0;
+      color: var(--md-sys-color-on-surface-variant);
+      line-height: 1.5;
+    }
+
+    .dialog-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .dialog-form md-outlined-text-field {
+      width: 100%;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--md-sys-color-on-surface-variant);
+      border-top: 1px solid var(--md-sys-color-outline-variant);
+      background-color: var(--md-sys-color-surface-container);
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer a {
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <script>
+    // Self-invoking script to prevent flash of wrong theme (FART)
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
 </head>
-<body class="bg-slate-100 p-4 sm:p-8">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-6">astrago</h1>
+<body>
 
-        <!-- Create New Link -->
-        <sl-card class="mb-8">
-            <div slot="header">
-                <h2 class="text-xl font-semibold">Create New Shortlink</h2>
-            </div>
-            <form action="/create-link" method="post" class="grid grid-cols-1 md:grid-cols-[1fr_auto] md:items-end gap-4">
-                <div class="flex flex-col sm:flex-row gap-4 min-w-0">
-                    <sl-input name="name" label="Name" placeholder="e.g., gemini" class="flex-grow"></sl-input>
-                    <sl-input name="url" label="Destination URL" placeholder="https://example.com" class="flex-grow-[2]"></sl-input>
-                </div>
-                <sl-button type="submit" variant="primary" class="w-full md:w-auto">Create</sl-button>
-            </form>
-        </sl-card>
-
-        <!-- Existing Links -->
-        <sl-card>
-            <div slot="header">
-                <h2 class="text-xl font-semibold">Existing Shortlinks</h2>
-            </div>
-            <div class="divide-y">
-                {% for link in links %}
-                <div class="py-4 grid grid-cols-1 md:grid-cols-[1fr_auto] md:items-center gap-4">
-                    <div class="min-w-0">
-                        <a href="/{{ link.name }}" class="font-semibold text-blue-600 hover:underline block truncate">{{ link.name }}</a>
-                        <p class="text-sm text-slate-500 truncate" title="{{ link.url }}">{{ link.url }}</p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-shrink-0">
-                        <sl-button size="small" class="edit-button" data-name="{{ link.name }}" data-url="{{ link.url }}">Edit</sl-button>
-                        <form action="/rename-link" method="post" class="flex items-center gap-1">
-                            <input type="hidden" name="old_name" value="{{ link.name }}">
-                            <sl-input name="new_name" placeholder="New name" size="small" class="w-full sm:w-32"></sl-input>
-                            <sl-button type="submit" size="small" class="w-full sm:w-auto">Rename</sl-button>
-                        </form>
-                        <form action="/delete-link" method="post">
-                            <input type="hidden" name="name" value="{{ link.name }}">
-                            <sl-button type="submit" variant="danger" size="small" class="w-full sm:w-auto">Delete</sl-button>
-                        </form>
-                    </div>
-                </div>
-                {% else %}
-                <p>No shortlinks found.</p>
-                {% endfor %}
-            </div>
-        </sl-card>
+  <!-- Top M3 App Bar -->
+  <header class="app-bar">
+    <div class="brand">
+      <span class="material-symbols-outlined brand-logo">join_inner</span>
+      <h1 class="brand-title">astrago</h1>
     </div>
+    
+    <!-- Theme Toggle -->
+    <md-icon-button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <md-icon id="theme-toggle-icon">dark_mode</md-icon>
+    </md-icon-button>
+  </header>
 
-    <!-- Edit Modal -->
-    <sl-dialog label="Edit Link" class="edit-dialog">
-        <form action="/update-link" method="post">
-            <input type="hidden" name="name" id="edit-name">
-            <sl-input name="url" id="edit-url" label="New Destination URL" required class="mb-4"></sl-input>
-            <sl-button slot="footer" type="submit" variant="primary">Save Changes</sl-button>
-        </form>
-    </sl-dialog>
+  <!-- Main Container -->
+  <main class="main-content">
+    
+    <!-- Section 1: Create Shortlink -->
+    <section class="m3-card">
+      <div class="card-header">
+        <span class="material-symbols-outlined card-icon">add_link</span>
+        <h2 class="title-large card-title">Create New Shortlink</h2>
+      </div>
+      
+      <form action="/create-link" method="post" class="create-form">
+        <div class="form-fields">
+          <md-outlined-text-field 
+            name="name" 
+            label="Alias / Shortlink" 
+            placeholder="e.g., gemini" 
+            required>
+            <md-icon slot="leading-icon">link</md-icon>
+          </md-outlined-text-field>
+          
+          <md-outlined-text-field 
+            name="url" 
+            label="Destination URL" 
+            placeholder="https://example.com" 
+            type="url" 
+            required>
+            <md-icon slot="leading-icon">link_websheet</md-icon>
+          </md-outlined-text-field>
+        </div>
+        
+        <div class="create-btn-container">
+          <md-filled-button type="submit">
+            Create Shortlink
+            <md-icon slot="icon">add</md-icon>
+          </md-filled-button>
+        </div>
+      </form>
+    </section>
 
-    <script>
-        const dialog = document.querySelector('.edit-dialog');
-        const editNameInput = document.querySelector('#edit-name');
-        const editUrlInput = document.querySelector('#edit-url');
-        const editButtons = document.querySelectorAll('.edit-button');
+    <!-- Section 2: Existing Links -->
+    <section class="m3-card">
+      <div class="card-header">
+        <span class="material-symbols-outlined card-icon">list_alt</span>
+        <h2 class="title-large card-title">Existing Shortlinks</h2>
+      </div>
 
-        editButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const name = button.dataset.name;
-                const url = button.dataset.url;
+      <div class="links-list">
+        <md-list style="background: transparent; padding: 0;">
+          {% for link in links %}
+          <md-list-item class="link-item">
+            <!-- Icon at the start of list item -->
+            <md-icon slot="start" class="link-item-logo">tag</md-icon>
+            
+            <!-- Link name (alias) -->
+            <div slot="headline" class="link-alias-container">
+              <a href="/{{ link.name }}" target="_blank" class="link-alias">
+                go/{{ link.name }}
+                <span class="material-symbols-outlined" style="font-size: 14px;">open_in_new</span>
+              </a>
+            </div>
+            
+            <!-- Destination URL (secondary line) -->
+            <div slot="supporting-text" class="link-url-container">
+              <span class="link-url" title="{{ link.url }}">{{ link.url }}</span>
+            </div>
+            
+            <!-- Actions at the end of list item -->
+            <div slot="end" class="action-buttons">
+              <!-- Edit Target URL -->
+              <md-icon-button class="edit-btn" data-name="{{ link.name }}" data-url="{{ link.url }}" aria-label="Edit destination url">
+                <md-icon>edit</md-icon>
+              </md-icon-button>
+              
+              <!-- Rename Shortlink Alias -->
+              <md-icon-button class="rename-btn" data-name="{{ link.name }}" aria-label="Rename shortlink">
+                <md-icon>edit_note</md-icon>
+              </md-icon-button>
+              
+              <!-- Delete Shortlink -->
+              <form action="/delete-link" method="post" style="display: inline-block; margin: 0;" onsubmit="return confirmDelete('{{ link.name }}')">
+                <input type="hidden" name="name" value="{{ link.name }}">
+                <md-icon-button type="submit" class="delete-btn" aria-label="Delete shortlink">
+                  <md-icon>delete</md-icon>
+                </md-icon-button>
+              </form>
+            </div>
+          </md-list-item>
+          
+          {% if not loop.last %}
+          <div class="list-divider"></div>
+          {% endif %}
+          
+          {% else %}
+          <div class="empty-state">
+            <span class="material-symbols-outlined empty-icon">link_off</span>
+            <p class="body-large empty-text">No shortlinks found. Create your first link above!</p>
+          </div>
+          {% endfor %}
+        </md-list>
+      </div>
+    </section>
 
-                editNameInput.value = name;
-                editUrlInput.value = url;
+  </main>
 
-                dialog.show();
-            });
-        });
-    </script>
+  <!-- Edit Destination Dialog -->
+  <md-dialog id="edit-dialog">
+    <div slot="headline">Edit Shortlink URL</div>
+    
+    <div slot="content">
+      <p class="body-medium dialog-description">
+        Update the destination URL for <strong id="edit-display-name">go/...</strong>. Users will be automatically redirected to the new address.
+      </p>
+      
+      <form id="edit-form" action="/update-link" method="post" class="dialog-form">
+        <input type="hidden" name="name" id="edit-input-name">
+        <md-outlined-text-field 
+          name="url" 
+          id="edit-input-url" 
+          label="New Destination URL" 
+          placeholder="https://example.com" 
+          type="url" 
+          required>
+          <md-icon slot="leading-icon">link_websheet</md-icon>
+        </md-outlined-text-field>
+      </form>
+    </div>
+    
+    <div slot="actions">
+      <md-text-button type="button" onclick="document.getElementById('edit-dialog').close()">Cancel</md-text-button>
+      <md-filled-button form="edit-form" type="submit">Save Changes</md-filled-button>
+    </div>
+  </md-dialog>
+
+  <!-- Rename Alias Dialog -->
+  <md-dialog id="rename-dialog">
+    <div slot="headline">Rename Shortlink</div>
+    
+    <div slot="content">
+      <p class="body-medium dialog-description">
+        Change the name/alias for <strong id="rename-display-name">go/...</strong>. Note that the old shortlink name will no longer redirect unless recreated.
+      </p>
+      
+      <form id="rename-form" action="/rename-link" method="post" class="dialog-form">
+        <input type="hidden" name="old_name" id="rename-input-old-name">
+        <md-outlined-text-field 
+          name="new_name" 
+          id="rename-input-new-name" 
+          label="New Shortlink Name" 
+          placeholder="e.g., core-docs" 
+          required>
+          <md-icon slot="leading-icon">edit</md-icon>
+        </md-outlined-text-field>
+      </form>
+    </div>
+    
+    <div slot="actions">
+      <md-text-button type="button" onclick="document.getElementById('rename-dialog').close()">Cancel</md-text-button>
+      <md-filled-button form="rename-form" type="submit">Rename</md-filled-button>
+    </div>
+  </md-dialog>
+
+  <!-- Footer -->
+  <footer>
+    <p class="body-small">
+      Made with love by <strong>@emilyastranova</strong> &bull; <a href="https://github.com/emilyastranova/astrago" target="_blank">View GitHub</a>
+    </p>
+  </footer>
+
+  <script>
+    // Theme Switcher Sync on Load
+    document.addEventListener("DOMContentLoaded", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const icon = document.getElementById("theme-toggle-icon");
+      if (icon) {
+        icon.textContent = isDark ? "light_mode" : "dark_mode";
+      }
+    });
+
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const icon = document.getElementById('theme-toggle-icon');
+      if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      }
+    }
+
+    // Modal Interaction Code
+    const editDialog = document.getElementById('edit-dialog');
+    const editDisplayName = document.getElementById('edit-display-name');
+    const editInputName = document.getElementById('edit-input-name');
+    const editInputUrl = document.getElementById('edit-input-url');
+
+    document.querySelectorAll('.edit-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const name = button.dataset.name;
+        const url = button.dataset.url;
+
+        editDisplayName.textContent = `go/${name}`;
+        editInputName.value = name;
+        editInputUrl.value = url;
+
+        editDialog.show();
+      });
+    });
+
+    const renameDialog = document.getElementById('rename-dialog');
+    const renameDisplayName = document.getElementById('rename-display-name');
+    const renameInputOldName = document.getElementById('rename-input-old-name');
+    const renameInputNewName = document.getElementById('rename-input-new-name');
+
+    document.querySelectorAll('.rename-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const name = button.dataset.name;
+
+        renameDisplayName.textContent = `go/${name}`;
+        renameInputOldName.value = name;
+        renameInputNewName.value = name; // prefill with current name
+
+        renameDialog.show();
+      });
+    });
+
+    // Defensive Delete Confirmation
+    function confirmDelete(name) {
+      return confirm(`Are you sure you want to delete the shortlink go/${name}?`);
+    }
+  </script>
 </body>
 </html>

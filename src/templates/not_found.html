@@ -1,26 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Not Found</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/light.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shortlink Not Found — astrago</title>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Roboto Font & Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Define the Import Map for Material Web Components -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  
+  <!-- Load Material 3 Components -->
+  <script type="module">
+    import '@material/web/all.js';
+  </script>
+
+  <style>
+    :root {
+      /* Indigo/Lavender MD3 Light Theme Colors */
+      --md-sys-color-primary: #3f51b5;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-primary-container: #e0e2ff;
+      --md-sys-color-on-primary-container: #000965;
+      --md-sys-color-secondary: #5a5d72;
+      --md-sys-color-on-secondary: #ffffff;
+      --md-sys-color-secondary-container: #e0e1f9;
+      --md-sys-color-on-secondary-container: #171a2c;
+      --md-sys-color-tertiary: #75546f;
+      --md-sys-color-on-tertiary: #ffffff;
+      --md-sys-color-tertiary-container: #ffd7f3;
+      --md-sys-color-on-tertiary-container: #2c122a;
+      --md-sys-color-error: #ba1a1a;
+      --md-sys-color-on-error: #ffffff;
+      --md-sys-color-error-container: #ffdad6;
+      --md-sys-color-on-error-container: #410002;
+      --md-sys-color-background: #fdfbff;
+      --md-sys-color-on-background: #1b1b1f;
+      --md-sys-color-surface: #fdfbff;
+      --md-sys-color-on-surface: #1b1b1f;
+      --md-sys-color-surface-variant: #e1e2ec;
+      --md-sys-color-on-surface-variant: #45464f;
+      --md-sys-color-outline: #757680;
+      --md-sys-color-outline-variant: #c5c6d0;
+      --md-sys-color-surface-container-lowest: #ffffff;
+      --md-sys-color-surface-container-low: #f3f3f8;
+      --md-sys-color-surface-container: #ededf2;
+      --md-sys-color-surface-container-high: #e7e7ec;
+      --md-sys-color-surface-container-highest: #e2e1e6;
+
+      /* Material Web Custom Elements Token Styling overrides */
+      --md-outlined-text-field-container-shape: 12px;
+      --md-outlined-text-field-outline-color: var(--md-sys-color-outline-variant);
+      --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
+      --md-outlined-text-field-label-text-color: var(--md-sys-color-on-surface-variant);
+      --md-outlined-text-field-focus-label-text-color: var(--md-sys-color-primary);
+      --md-outlined-text-field-input-text-color: var(--md-sys-color-on-surface);
+    }
+
+    :root.dark {
+      /* Indigo/Lavender MD3 Dark Theme Colors */
+      --md-sys-color-primary: #bec2ff;
+      --md-sys-color-on-primary: #00106a;
+      --md-sys-color-primary-container: #25399c;
+      --md-sys-color-on-primary-container: #e0e2ff;
+      --md-sys-color-secondary: #c3c5dd;
+      --md-sys-color-on-secondary: #2c2f42;
+      --md-sys-color-secondary-container: #434659;
+      --md-sys-color-on-secondary-container: #e0e1f9;
+      --md-sys-color-tertiary: #e3bada;
+      --md-sys-color-on-tertiary: #432740;
+      --md-sys-color-tertiary-container: #5c3d57;
+      --md-sys-color-on-tertiary-container: #ffd7f3;
+      --md-sys-color-error: #ffb4ab;
+      --md-sys-color-on-error: #690005;
+      --md-sys-color-error-container: #93000a;
+      --md-sys-color-on-error-container: #ffdad6;
+      --md-sys-color-background: #111318;
+      --md-sys-color-on-background: #e2e2e9;
+      --md-sys-color-surface: #111318;
+      --md-sys-color-on-surface: #e2e2e9;
+      --md-sys-color-surface-variant: #45464f;
+      --md-sys-color-on-surface-variant: #c5c6d0;
+      --md-sys-color-outline: #8f909a;
+      --md-sys-color-outline-variant: #45464f;
+      --md-sys-color-surface-container-lowest: #0b0e13;
+      --md-sys-color-surface-container-low: #1a1b21;
+      --md-sys-color-surface-container: #1e1f25;
+      --md-sys-color-surface-container-high: #282a30;
+      --md-sys-color-surface-container-highest: #33353b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-background);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px 16px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Typography helper classes */
+    .headline-large { font-size: 32px; font-weight: 400; line-height: 40px; letter-spacing: 0px; }
+    .headline-medium { font-size: 28px; font-weight: 400; line-height: 36px; letter-spacing: 0px; }
+    .headline-small { font-size: 24px; font-weight: 400; line-height: 32px; letter-spacing: 0px; }
+    .title-large { font-size: 22px; font-weight: 500; line-height: 28px; letter-spacing: 0px; }
+    .title-medium { font-size: 16px; font-weight: 500; line-height: 24px; letter-spacing: 0.15px; }
+    .title-small { font-size: 14px; font-weight: 500; line-height: 20px; letter-spacing: 0.1px; }
+    .body-large { font-size: 16px; font-weight: 400; line-height: 24px; letter-spacing: 0.5px; }
+    .body-medium { font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0.25px; }
+    .body-small { font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0.4px; }
+
+    /* M3 Outlined Card */
+    .m3-card {
+      background-color: var(--md-sys-color-surface-container-low);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      border-radius: 28px; /* M3 extra-large corner */
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 24px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 600px) {
+      .m3-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+        gap: 20px;
+      }
+    }
+
+    .illustration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      height: 72px;
+      width: 72px;
+      border-radius: 50%;
+    }
+
+    .illustration-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .title-name {
+      color: var(--md-sys-color-on-surface);
+      margin: 0;
+    }
+
+    .description {
+      color: var(--md-sys-color-on-surface-variant);
+      margin: 0;
+    }
+
+    .description strong {
+      color: var(--md-sys-color-primary);
+    }
+
+    /* Form styling */
+    .create-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .create-form md-outlined-text-field {
+      width: 100%;
+      text-align: left;
+    }
+
+    .btn-submit {
+      width: 100%;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background-color: var(--md-sys-color-outline-variant);
+      margin: 4px 0;
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Fixed top right Theme Toggle */
+    .theme-toggle-container {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+  </style>
+
+  <script>
+    // Self-invoking script to prevent flash of wrong theme (FART)
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
 </head>
-<body class="bg-slate-100 flex items-center justify-center h-screen">
-    <sl-card class="w-full max-w-lg">
-        <div slot="header">
-            <h2 class="text-xl font-semibold">Shortlink Not Found</h2>
-        </div>
+<body>
 
-        <p class="mb-4">The shortlink "<strong>{{ query }}</strong>" does not exist. Would you like to create it?</p>
+  <!-- Floating Theme Toggle -->
+  <div class="theme-toggle-container">
+    <md-icon-button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+      <md-icon id="theme-toggle-icon">dark_mode</md-icon>
+    </md-icon-button>
+  </div>
 
-        <form action="/create-link" method="post">
-            <input type="hidden" name="name" value="{{ query }}">
-            <sl-input name="url" label="Destination URL" placeholder="https://example.com" required class="mb-4"></sl-input>
-            <sl-button type="submit" variant="primary">Create Shortlink</sl-button>
-        </form>
-        <div slot="footer">
-            <a href="/">Manage all links</a>
-        </div>
+  <!-- Main Card -->
+  <main class="m3-card">
+    
+    <!-- Illustration / Icon Header -->
+    <div class="illustration">
+      <span class="material-symbols-outlined illustration-icon">search_off</span>
+    </div>
+
+    <!-- Title and Subhead -->
+    <div class="title-group">
+      <h1 class="headline-medium title-name">Shortlink Not Found</h1>
+      <p class="body-large description">
+        The alias <strong>go/{{ query }}</strong> does not exist in our database.
+      </p>
+    </div>
+
+    <p class="body-medium description">
+      Would you like to register this shortlink right now? Simply specify the target destination below to create it.
+    </p>
+
+    <!-- Create Shortlink Form -->
+    <form action="/create-link" method="post" class="create-form">
+      <input type="hidden" name="name" value="{{ query }}">
+      
+      <md-outlined-text-field 
+        name="url" 
+        label="Destination URL" 
+        placeholder="https://example.com" 
+        type="url" 
+        required>
+        <md-icon slot="leading-icon">link_websheet</md-icon>
+      </md-outlined-text-field>
+      
+      <md-filled-button type="submit" class="btn-submit">
+        Create shortlink go/{{ query }}
+        <md-icon slot="icon">add</md-icon>
+      </md-filled-button>
+    </form>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Footer action links -->
+    <div class="footer-actions">
+      <md-text-button href="/" style="--md-text-button-label-text-color: var(--md-sys-color-primary)">
+        <md-icon slot="icon">arrow_back</md-icon>
+        Manage all links
+      </md-text-button>
+    </div>
+
+  </main>
+
+  <script>
+    // Theme Switcher Sync on Load
+    document.addEventListener("DOMContentLoaded", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const icon = document.getElementById("theme-toggle-icon");
+      if (icon) {
+        icon.textContent = isDark ? "light_mode" : "dark_mode";
+      }
+    });
+
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const icon = document.getElementById('theme-toggle-icon');
+      if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      }
+    }
+  </script>
+</body>
+</html>
